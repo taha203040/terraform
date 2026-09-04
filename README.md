@@ -130,4 +130,68 @@ Outputs:
 instance_dns = "ec2_id.your-region.compute.amazonaws.com"
 instance_ip_addr = "your_ec2_ip"
 ```
+# Terraform Modules - Simple Summary
 
+## What are Modules?
+Modules let you **reuse infrastructure code**. Instead of writing the same code multiple times, you write it once in a module and reuse it with different values.
+
+---
+
+## Project Structure
+```
+web-app/              ← Root module (uses the module)
+web-app-module/       ← Reusable module
+  ├── main.tf         ← Infrastructure code
+  ├── variables.tf    ← Inputs
+  └── outputs.tf      ← Outputs
+```
+
+---
+
+## How It Works
+
+**1. Create a module** (`web-app-module/`)
+- Define resources in `main.tf`
+- Define inputs in `variables.tf`
+- Define outputs in `outputs.tf`
+
+**2. Use the module** (from `web-app/`)
+```hcl
+module "web_app_1" {
+  source = "../web-app-module"
+  
+  app_name        = "web-app-1"
+  instance_type   = "t3.micro"
+  environment_name = "development"
+}
+```
+
+**3. Reuse it multiple times**
+```hcl
+module "web_app_1" { ... }   # development
+module "web_app_2" { ... }   # production
+```
+
+---
+
+## Key Concepts
+
+| Concept | Explanation |
+|---------|-------------|
+| **Root module** | Main configuration that calls modules |
+| **Child module** | Reusable code called by root module |
+| **Inputs** | Values passed to the module (variables) |
+| **Outputs** | Values returned by the module |
+
+---
+
+## Benefits
+- ✅ **Reusability** - Write once, use many times  
+- ✅ **Consistency** - Same structure everywhere  
+- ✅ **Maintainability** - Update in one place  
+
+---
+
+## ⚠️ Important
+- **Commit to Git**: `main.tf`, `variables.tf`, `outputs.tf`  
+- **Don't commit**: `.terraform/` folder (add to `.gitignore`)
