@@ -191,7 +191,3 @@ module "web_app_2" { ... }   # production
 - ✅ **Maintainability** - Update in one place  
 
 ---
-
-## ⚠️ Important
-- **Commit to Git**: `main.tf`, `variables.tf`, `outputs.tf`  
-- **Don't commit**: `.terraform/` folder (add to `.gitignore`)
